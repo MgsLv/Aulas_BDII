@@ -1,0 +1,97 @@
+>>>>>>>>>>>Inserir dados
+
+INSERT INTO alunos (nome, curso, salario, idade) VALUES 
+('Alice', 'Matemática', 3000.000, 22), 
+('Bruno', 'Física', 2800.000, 25), 
+('Carla', 'Química', 3200.000, 30), 
+('Daniel', 'Biologia', 2500.000, 28), 
+('Eva', 'Computação', 3500.000, 27);
+
+>>>>>>>>>>>>> UPPER(): Converte uma String para maiusculas
+
+DELIMITER //
+
+CREATE FUNCTION nopme_maiusculas(aluno_id INT)
+RETURNS VARCHAR(250)
+DETERMINISTIC
+BEGIN
+	DECLARE aluno_nome VARCHAR(250);
+	SELECT UPPER(nome) INTO aluno_nome FROM alunos WHERE id = aluno_id;
+	RETURN aluno_nome;
+END; //
+
+DELIMITER ;
+
+>>>>>>>>>>>> Função para Calcular a Idade em Meses
+
+DELIMITER //
+
+CREATE FUNCTION idade_em_meses(aluno_id INT)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+	DECLARE aluno_idade INT;
+	SELECT idade INTO aluno_idade FROM alunos WHERE id = aluno_id;
+	RETURN aluno_idade * 12; -- Multiplica a idade em anos por 12.
+END; //
+
+DELIMITER ;
+
+>>>>>>>>>>> Função para Verificar se o Aluno é Maior de Idade
+
+DELIMITER //
+
+CREATE FUNCTION eh_maior_idade(aluno_id INT)
+RETURNS BOOLEAN
+DETERMINISTIC
+BEGIN
+	DECLARE aluno_idade INT;
+	SELECT idade INTO aluno_idade FROM alunos WHERE id = aluno_id;
+	RETURN aluno_idade >= 18; -- Retorna verdadeiro se a idade for maior ou igual a 18.
+END; //
+
+DELIMITER ; 
+
+>>>>>>>>>> Função para Calcular o Salário Anual
+
+DELIMITER //
+
+CREATE FUNCTION salario_anual(aluno_id INT)
+RETURNS DOUBLE
+DETERMINISTIC
+BEGIN
+	DECLARE aluno_salario DOUBLE;
+	SELECT salario INTO aluno_salario FROM alunos WHERE id = aluno_id;
+	RETURN aluno_salario * 12; -- Multiplica o salário mensal por 12.
+END; //
+
+DELIMITER ;
+
+>>>>>>>>>> Função para Retornar o Curso do Aluno
+
+DELIMITER //
+
+CREATE FUNCTION curso_do_aluno(aluno_id INT)
+RETURNS VARCHAR(250)
+DETERMINISTIC
+BEGIN
+	DECLARE aluno_curso VARCHAR(250);
+	SELECT curso INTO aluno_curso FROM alunos WHERE id = aluno_id;
+	RETURN aluno_curso;
+END; //
+
+DELIMITER ;
+
+>>>>>>>>>>> Testar
+
+SELECT nopme_maiusculas(1); -- Nome do aluno com ID 1 em maiúsculas.
+SELECT idade_em_meses(2); -- Idade do aluno com ID 2 em meses.
+SELECT eh_maior_idade(3); -- Verifica se o aluno com ID 3 é maior de idade.
+SELECT salario_anual(4); -- Salário anual do aluno com ID 4.
+SELECT curso_do_aluno(5); -- Curso do aluno com ID 5.
+
+SELECT nopme_maiusculas(1); 
+SELECT idade_em_meses(2); 
+SELECT eh_maior_idade(3); 
+SELECT salario_anual(4); 
+SELECT curso_do_aluno(5); 
